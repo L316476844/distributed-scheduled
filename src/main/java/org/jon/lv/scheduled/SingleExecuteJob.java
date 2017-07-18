@@ -3,20 +3,18 @@ package org.jon.lv.scheduled;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import org.jon.lv.date.DateUtils;
-import org.springframework.stereotype.Service;
 
 /**
- * @Package org.jon.lv.scheduled.DemoJob
- * @Description: DemoJob
+ * @Package org.jon.lv.scheduled.SingleExecuteJob
+ * @Description: 只执行一次
  * @Copyright: Copyright (c) 2016
  * Author lv bin
- * @date 2017/6/27 14:14
+ * @date 2017/7/18 14:40
  * version V1.0.0
  */
-@Service
-public class DemoJob implements SimpleJob {
+public class SingleExecuteJob implements SimpleJob {
     @Override
     public void execute(ShardingContext shardingContext) {
-//        System.out.println("------------时间--------------" + DateUtils.getCurrentTime());
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$:" + DateUtils.getCurrentTime());
     }
 }

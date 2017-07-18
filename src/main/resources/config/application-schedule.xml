@@ -25,4 +25,12 @@
                 class="${simple.job.demo.schedule.class}"
                 cron="${simple.job.demo.schedule.cron}"
                 sharding-total-count="${elastic.job.sharding.total.count}"/>
+
+    <!-- 示例 job -->
+    <job:simple id="singleSchedule"
+                registry-center-ref="scheduledCenter"
+                description="${simple.job.single.schedule.description}"
+                class="${simple.job.single.schedule.class}"
+                cron="${simple.job.single.schedule.cron}"
+                sharding-total-count="${elastic.job.sharding.total.count}"/>
 </beans>
