@@ -5,6 +5,8 @@ import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import org.jon.lv.date.DateUtils;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+
 /**
  * @Package org.jon.lv.scheduled.DemoJob
  * @Description: DemoJob
@@ -15,8 +17,33 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DemoJob implements SimpleJob {
+
+    private String file = "d:/home/data.txt";
+
     @Override
     public void execute(ShardingContext shardingContext) {
-//        System.out.println("------------时间--------------" + DateUtils.getCurrentTime());
+
+        String jobParameter = shardingContext.getJobParameter();
+
+        String content = "------------时间--------------" + DateUtils.getCurrentTime() + "\r\n";
+        method2(file, content);
     }
+
+    public static void method2(String file, String content) {
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(file, true)));
+            out.write(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

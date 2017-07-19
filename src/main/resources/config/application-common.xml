@@ -16,7 +16,6 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath*:elastic-jobs.properties</value>
 				<value>classpath*:scheduled-tasks-env.properties</value>
 			</list>
 		</property>

@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:reg="http://www.dangdang.com/schema/ddframe/reg"
-       xmlns:job="http://www.dangdang.com/schema/ddframe/job"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-                        http://www.dangdang.com/schema/ddframe/reg
-                        http://www.dangdang.com/schema/ddframe/reg/reg.xsd
-                        http://www.dangdang.com/schema/ddframe/job
-                        http://www.dangdang.com/schema/ddframe/job/job.xsd"
+
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
        default-autowire="byName" default-lazy-init="false">
 
+
+    <!-- zk配置 -->
+    <bean id="zkConfig" class="com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration">
+        <constructor-arg name="namespace" value="${elastic.job.registry.namespace}" />
+        <constructor-arg name="serverLists" value="${elastic.job.registry.zks}"/>
+        <property name="maxRetries" value="${elastic.job.max-retries}"/>
+        <property name="maxSleepTimeMilliseconds" value="${max.sleep.time.milliseconds}"/>
+        <property name="baseSleepTimeMilliseconds" value="${base.sleep.time.milliseconds}"/>
+    </bean>
+
     <!-- 配置作业注册中心 -->
-    <reg:zookeeper id="scheduledCenter"
-                   server-lists="${elastic.job.registry.zks}"
-                   namespace="${elastic.job.registry.namespace}"
-                   base-sleep-time-milliseconds="${base.sleep.time.milliseconds}"
-                   max-sleep-time-milliseconds="${max.sleep.time.milliseconds}"
-                   max-retries="${elastic.job.max-retries}" />
+    <bean id="zkRegistryCenter" class="com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter" init-method="init">
+        <constructor-arg name="zkConfig" ref="zkConfig"/>
+    </bean>
 
-    <!-- 示例 job -->
-    <job:simple id="demoSchedule"
-                registry-center-ref="scheduledCenter"
-                description="${simple.job.demo.schedule.description}"
-                class="${simple.job.demo.schedule.class}"
-                cron="${simple.job.demo.schedule.cron}"
-                sharding-total-count="${elastic.job.sharding.total.count}"/>
 
-    <!-- 示例 job -->
-    <job:simple id="singleSchedule"
-                registry-center-ref="scheduledCenter"
-                description="${simple.job.single.schedule.description}"
-                class="${simple.job.single.schedule.class}"
-                cron="${simple.job.single.schedule.cron}"
-                sharding-total-count="${elastic.job.sharding.total.count}"/>
+
 </beans>
