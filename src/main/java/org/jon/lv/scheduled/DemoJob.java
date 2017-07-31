@@ -17,6 +17,6 @@ import org.springframework.stereotype.Service;
 public class DemoJob implements SimpleJob {
     @Override
     public void execute(ShardingContext shardingContext) {
-        System.out.println("--------------------------" + DateUtils.getCurrentTime());
+        System.out.println("------------时间--------------" + DateUtils.getCurrentTime());
     }
 }
